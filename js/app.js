@@ -737,12 +737,10 @@
         const da = new DynamicAdapt("max");
         da.init();
         (function() {
-            appendScript("https://media.twiliocdn.com/sdk/js/conversations/v2.0/twilio-conversations.min.js");
             appendScript("https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js");
             appendScript("https://cdn.jsdelivr.net/npm/linkifyjs@4.1.1/dist/linkify.min.js");
             appendScript("https://cdn.jsdelivr.net/npm/linkify-string@4.1.1/dist/linkify-string.min.js", "linkify");
-            const TEMPORARY_TWILIO_TOKEN = "eyJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIiwidHlwIjoiSldUIn0.eyJqdGkiOiJTSzcxNTg2NGUxOTI1MmYxYjgyYmI4NmYzNjQ4NGQyOGEyLTE2ODAyMzQzMjkiLCJncmFudHMiOnsiY2hhdCI6eyJzZXJ2aWNlX3NpZCI6IklTZDlkMzY0YmYwMWRlNDM4NDg2YjA3ZmU3NDJkMTIxMzcifSwidm9pY2UiOnsiaW5jb21pbmciOnsiYWxsb3ciOnRydWV9LCJvdXRnb2luZyI6eyJhcHBsaWNhdGlvbl9zaWQiOiJBUGU0NzFiNGNkOWZhZmM5ZDY1MTIwYWMwM2RkZjEyZjQyIn19LCJpZGVudGl0eSI6ImR1c3RpbkB0ZXJyaWJsZS5hcHAifSwiaXNzIjoiU0s3MTU4NjRlMTkyNTJmMWI4MmJiODZmMzY0ODRkMjhhMiIsImV4cCI6MTY4MDI0NDMyOSwibmJmIjoxNjgwMjM0MzI5LCJzdWIiOiJBQ2UyMTFiYjc5YjZjMzg2YTVjYThjZWM2ZjVlNTI5YzNhIn0.CsXJPvBGK8K-58QpQ51sjfIydADh6GR8nJxtWCn0sH8";
-            const projectId = window.CMSHQ_SETTINGS?.id || "";
+            window.CMSHQ_SETTINGS;
             const brandColor = window.CMSHQ_SETTINGS?.brandColor || "#513857";
             const brandName = window.CMSHQ_SETTINGS?.brandName || "BetterLegal";
             window.CMSHQ_SETTINGS;
@@ -752,21 +750,11 @@
             window.CMSHQ_SETTINGS;
             const messageFont = window.CMSHQ_SETTINGS?.messageFont || "Inter";
             const highContrastTextColor = getHighContrastTextColor(brandColor);
-            const userEmail = window.CMSHQ_SETTINGS?.user?.email || "email@themasonry.com";
-            let TwilioClient;
-            initializeTwilioClient();
-            let Conversation;
-            initializeConversation();
-            subscribeToConversation();
-            loadMessages();
+            window.CMSHQ_SETTINGS;
             const chatContainer = document.createElement("div");
             chatContainer.id = "cmshq_chat-container";
-            chatContainer.innerHTML = `\n    <div id="cmshq_chat">\n        <div id="cmshq_chat-body-container" class="open">\n            <div id="cmshq_chat-header" style="background-color: ${brandColor};">\n                <div id="cmshq_chat-brand-name" style="color: ${highContrastTextColor};">${brandName}</div>\n            </div>\n            <div id="cmshq_chat-body">\n                <div id="cmshq_chat-messages" class="cmshq_chat-messages">\n                  <div id="anchor"></div>\n                </div>\n            </div>\n            <div class="cmshq_chat-footer">\n                <textarea\n                    id="cmshq_chat-input"\n                    placeholder="${placeholderText || "Write a message..."}"\n                    class="cmshq_chat-input no-scrollbar"\n                    rows="1"\n                ></textarea>\n                <div class="cmshq_chat-actions">\n                    <button\n                        id="cmshq_chat-image-button"\n                        class="cmshq_chat-image-button"\n                        style="color: ${brandColor};"\n                    >\n                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" height="20" width="20"><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>\n                    </button>\n                    <button\n                        id="cmshq_chat-emoji-button"\n                        class="cmshq_chat-emoji-button"\n                        style="color: ${brandColor};"\n                    >\n                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" height="20" width="20"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>\n                    </button>\n                    <button\n                        id="cmshq_chat-send-button"\n                        class="cmshq_chat-send-button"\n                        style="color: ${brandColor};"\n                    >\n                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="20" width="20">\n                            <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />\n                        </svg>\n                    </button>\n                </div>\n            </div>\n        </div>\n       \n        <input type="file" id="cmshq_chat-file-input" style="display: none;" accept="video/*, image/png, image/jpeg" />\n    </div>\n  `;
+            chatContainer.innerHTML = `\n    <div id="cmshq_chat">\n        <div id="cmshq_chat-body-container" class="open">\n            <div id="cmshq_chat-header" style="background-color: ${brandColor};">\n                <div id="cmshq_chat-brand-name" style="color: ${highContrastTextColor};">${brandName}</div>\n            </div>\n            <div id="cmshq_chat-body">\n                <div id="cmshq_chat-messages" class="cmshq_chat-messages">\n                  <div id="anchor"></div>\n                </div>\n            </div>\n            <div class="cmshq_chat-footer">\n                <textarea\n                    id="cmshq_chat-input"\n                    placeholder="${placeholderText || "Write a message..."}"\n                    class="cmshq_chat-input no-scrollbar"\n                    rows="1"\n                ></textarea>\n                <div class="cmshq_chat-actions">\n                    <button\n                        id="cmshq_chat-image-button"\n                        class="cmshq_chat-image-button"\n                        style="color: ${brandColor};"\n                    >\n                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" height="20" width="20"><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>\n                    </button>\n                    <button\n                        id="cmshq_chat-emoji-button"\n                        class="cmshq_chat-emoji-button"\n                        style="color: ${brandColor};"\n                    >\n                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" height="20" width="20"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>\n                    </button>\n                    <button\n                        id="cmshq_chat-send-button"\n                        class="cmshq_chat-send-button"\n                        style="color: ${brandColor};"\n                    >\n                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="20" width="20">\n                            <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />\n                        </svg>\n                    </button>\n                </div>\n            </div>\n        </div>\n\n        <input type="file" id="cmshq_chat-file-input" style="display: none;" accept="video/*, image/png, image/jpeg" />\n    </div>\n  `;
             document.querySelector(".chat__main").appendChild(chatContainer);
-            const launcher = document.getElementById("cmshq_chat-launcher");
-            if (launcher) launcher.onclick = toggleChat;
-            const headerClose = document.getElementById("cmshq_chat-header-close");
-            if (headerClose) headerClose.onclick = toggleChat;
             const fileInput = document.getElementById("cmshq_chat-file-input");
             fileInput.addEventListener("change", (function() {
                 const file = fileInput.files[0];
@@ -809,7 +797,7 @@
                 if (!emojiPicker.contains(event.target) && !emojiButton.contains(event.target)) if (!emojiPicker.classList.contains("cmshq_hidden")) emojiPicker.classList.add("cmshq_hidden");
             }));
             createAndAppendMessage(welcomeMessage, "receive", {
-                name: "Chad Sakonchick"
+                name: displayName
             }, new Date);
             initEmojiPicker();
             function initEmojiPicker() {
@@ -861,49 +849,14 @@
                 const messagesContainer = document.getElementById("cmshq_chat-messages");
                 messagesContainer.insertBefore(message, document.getElementById("anchor"));
             }
-            function createAndAppendMediaMessage(url, mediaType, type, user, createdAt) {
-                const message = document.createElement("div");
-                message.classList.add("cmshq_message");
-                message.classList.add(type);
-                message.title = new Date(createdAt).toLocaleString();
-                const messageHTML = `\n            <div class="cmshq_message-container">\n            <div style="width: 100%;">\n                ${type === "receive" ? `<div class="cmshq_message-username">\n                      ${user.name}\n                    </div>` : ""}\n                <div\n                class="cmshq_message-body ${messageFont?.class}"\n                style="\n                    ${type === "send" ? `background-color: ${brandColor}; color: ${highContrastTextColor};` : ""}"\n                >\n                ${mediaType === "image/jpeg" || mediaType === "image/png" ? `<img src="${url}" />` : `<video controls><source src="${url}" type="${mediaType}"></video>`}\n                </div>\n            </div>\n        </div>\n    `;
-                message.innerHTML = messageHTML;
-                const messagesContainer = document.getElementById("cmshq_chat-messages");
-                messagesContainer.insertBefore(message, document.getElementById("anchor"));
-            }
-            function initializeTwilioClient() {
-                if (!window.Twilio) {
-                    setTimeout(initializeTwilioClient, 1e3);
-                    return;
-                }
-                TwilioClient = new window.Twilio.Conversations.Client(TEMPORARY_TWILIO_TOKEN);
-            }
-            function initializeConversation() {
-                if (!TwilioClient) {
-                    setTimeout(initializeConversation, 1e3);
-                    return;
-                }
-                const conversationSid = localStorage.getItem("cmshq_conversationSid_" + projectId);
-                if (conversationSid) TwilioClient.getConversationBySid(conversationSid).then((function(conversation) {
-                    Conversation = conversation;
-                    Conversation.join();
-                    conversation.add(userEmail);
-                })); else TwilioClient.createConversation().then((function(conversation) {
-                    Conversation = conversation;
-                    conversation.join();
-                    conversation.add(userEmail);
-                    localStorage.setItem("cmshq_conversationSid_" + projectId, conversation.sid);
-                }));
-            }
-            function sendMessage(text) {
-                if (!Conversation) {
-                    setTimeout((function() {
-                        sendMessage(text);
-                    }), 1e3);
-                    return;
-                }
-                const message = Conversation.prepareMessage().setBody(text).build();
-                message.send();
+            async function sendMessage(text) {
+                createAndAppendMessage(text, "send", {
+                    name: displayName
+                }, new Date);
+                let answer = await fetchData(text);
+                createAndAppendMessage(answer.result, "receive", {
+                    name: displayName
+                }, new Date);
                 clearInput();
             }
             function sendFile(file) {
@@ -917,57 +870,6 @@
                 formData.append("file", file);
                 Conversation.sendMessage(formData);
             }
-            function formatAndAppendMessage(message) {
-                let messageType;
-                if (message.type === "media") {
-                    message.media.getContentTemporaryUrl().then((function(url) {
-                        const messageAuthor = {};
-                        if (message.state.author !== userEmail) {
-                            messageType = "send";
-                            messageAuthor.name = "";
-                            messageAuthor.email = message.state.author;
-                        } else {
-                            messageType = "receive";
-                            messageAuthor.name = displayName;
-                            messageAuthor.email = userEmail;
-                        }
-                        createAndAppendMediaMessage(url, message.media.contentType, messageType, messageAuthor, message.state.timestamp);
-                    }));
-                    return;
-                }
-                if (message.state.author === userEmail) messageType = "receive"; else messageType = "send";
-                const messageText = message.state.body;
-                const messageAuthor = {};
-                if (messageType === "receive") {
-                    messageAuthor.name = displayName;
-                    messageAuthor.email = userEmail;
-                }
-                if (messageType === "send") {
-                    messageAuthor.name = "";
-                    messageAuthor.email = message.state.author;
-                }
-                createAndAppendMessage(messageText, messageType, messageAuthor, message.state.timestamp);
-            }
-            function loadMessages() {
-                if (!Conversation) {
-                    setTimeout(loadMessages, 1e3);
-                    return;
-                }
-                Conversation.getMessages().then((function(messages) {
-                    messages.items.forEach((function(message) {
-                        formatAndAppendMessage(message);
-                    }));
-                }));
-            }
-            function subscribeToConversation() {
-                if (!Conversation) {
-                    setTimeout(subscribeToConversation, 1e3);
-                    return;
-                }
-                Conversation.on("messageAdded", (function(message) {
-                    formatAndAppendMessage(message);
-                }));
-            }
             function clearInput() {
                 const input = document.getElementById("cmshq_chat-input");
                 input.value = "";
@@ -979,10 +881,26 @@
                 const yiq = (r * 299 + g * 587 + b * 114) / 1e3;
                 return yiq >= 128 ? "#000000" : "#ffffff";
             }
-            function toggleChat() {
-                const chat = document.getElementById("cmshq_chat-body-container");
-                chat.classList.toggle("open");
-            }
+            const fetchData = async text => {
+                try {
+                    const response = await fetch("https://transcript2ai.themasonry.com/api/question_doc/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            documents: [ 205 ],
+                            query: text
+                        })
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    const data = await response.json();
+                    console.log(data);
+                    return data;
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            };
         })();
         menuInit();
         tabs();
